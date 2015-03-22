@@ -1,5 +1,6 @@
 var gulp = require('gulp')
   , path = require('path')
+  , del = require('del')
 
 var $ = require('gulp-load-plugins')({
   scope: ['devDependencies'],
@@ -12,11 +13,27 @@ const ROOT = path.join(__dirname)
   , DIST = path.join(APP, 'dist')
   , FILES = {
     entry: path.join(APP, 'src', 'entry.es6'),
-    index: path.join(DIST, 'index.html')
+    index: path.join(APP, 'src', 'index.html'),
+    serveHTML: path.join(DIST, 'index.html')
   }
 
+gulp.task('clean', function(done){
+  del([ DIST ], done)
+})
+
+gulp.task('copy:html', function(){
+  gulp.src(FILES.index)
+    .pipe(gulp.dest(DIST))
+    .pipe($.connect.reload())
+})
+
+gulp.task('bower', function() {
+  $.bower()
+    .pipe(gulp.dest(DIST + '/vendor'))
+});
+
 gulp.task('scripts:build', function(){
-  return gulp.src(FILES.entry)
+  gulp.src(FILES.entry)
     .pipe($.webpack({
       output: {
         filename: '[name].js'
@@ -48,26 +65,28 @@ gulp.task('scripts:build', function(){
     .pipe($.connect.reload()) // can swap for browserSync
 })
 
-gulp.task('reload:html', function(){
-  return gulp.src(FILES.index)
-    .pipe($.connect.reload())
-})
-
 gulp.task('connect:start', function(){
   $.connect.server({
     root: DIST,
     livereload: true
   })
-  return gulp.src(FILES.index)
-    .pipe($.open('',{
+  gulp.src(FILES.serveHTML)
+    .pipe($.open('', {
       url: 'http://localhost:8080'
     }))
 });
 
 gulp.task('watch:html', function(){
-  return gulp.watch(FILES.index, ['reload:html'])
+  gulp.watch(FILES.index, ['copy:html'])
 });
 
-gulp.task('dev', ['connect:start', 'watch:html', 'scripts:build'])
+gulp.task('dev', [
+    'clean',
+    'copy:html',
+    'bower',
+    'connect:start',
+    'watch:html',
+    'scripts:build'
+  ])
 
 gulp.task('default', $.taskListing)
