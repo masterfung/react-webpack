@@ -10,9 +10,13 @@ var $ = require('gulp-load-plugins')({
 const ROOT = path.join(__dirname)
   , APP = path.join(ROOT)
   , DIST = path.join(APP, 'dist')
+  , FILES = {
+    entry: path.join(APP, 'src', 'entry.es6'),
+    index: path.join(DIST, 'index.html')
+  }
 
 gulp.task('scripts:build', function(){
-  return gulp.src(APP + "/src/entry.es6")
+  return gulp.src(FILES.entry)
     .pipe($.webpack({
       output: {
         filename: '[name].js'
@@ -45,7 +49,7 @@ gulp.task('scripts:build', function(){
 })
 
 gulp.task('reload:html', function(){
-  return gulp.src(DIST + "/index.html")
+  return gulp.src(FILES.index)
     .pipe($.connect.reload())
 })
 
@@ -54,14 +58,14 @@ gulp.task('connect:start', function(){
     root: DIST,
     livereload: true
   })
-  return gulp.src(DIST + "/index.html")
+  return gulp.src(FILES.index)
     .pipe($.open('',{
       url: 'http://localhost:8080'
     }))
 });
 
 gulp.task('watch:html', function(){
-  return gulp.watch(DIST + "/index.html", ['reload:html'])
+  return gulp.watch(FILES.index, ['reload:html'])
 });
 
 gulp.task('dev', ['connect:start', 'watch:html', 'scripts:build'])
