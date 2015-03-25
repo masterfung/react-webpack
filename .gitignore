@@ -1,4 +1,4 @@
 dist/
-!dist/*.html
+!index.html
 node_modules
 app/vendor/
