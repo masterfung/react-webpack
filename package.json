@@ -1,10 +1,14 @@
 {
   "name": "webpack-setup",
   "version": "0.0.1",
-  "description": "",
+  "description": "basic setup for react crash course",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/tomatau/react-webpack-setup/"
   },
   "author": "",
   "license": "ISC",
