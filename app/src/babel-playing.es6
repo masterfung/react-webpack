@@ -1,5 +1,6 @@
 // relative import
 import importedObject from './example-dependency'
+import React from 'react'
 
 console.log(importedObject)
 

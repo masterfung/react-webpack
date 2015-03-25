@@ -11,7 +11,7 @@ var $ = require('gulp-load-plugins')({
 
 const ROOT = path.join(__dirname)
   , APP = path.join(ROOT, 'app')
-  , DIST = path.join(APP, 'dist')
+  , DIST = path.join(ROOT, 'dist')
   , FILES = {
     entry: path.join(APP, 'src', 'babel-playing.es6'),
     index: path.join(APP, 'index.html'),
@@ -29,7 +29,7 @@ gulp.task('copy:html', function(){
     .pipe($.connect.reload())
 })
 
-gulp.task('bower-files', function() {
+gulp.task('bower:files', function() {
   gulp.src(mainBowerFiles())
     .pipe($.stripCode({
       pattern: /\/\*\# sourceMapping.+\*\//
@@ -89,11 +89,11 @@ gulp.task('watch:html', function(){
 });
 
 gulp.task('dev', [
-    'bower-files',
-    'scripts:build',
     'copy:html',
+    'bower:files',
+    'scripts:build',
     'connect:start',
-    'watch:html',
+    'watch:html'
   ])
 
 gulp.task('default', $.taskListing)
