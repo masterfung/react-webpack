@@ -1,8 +1,5 @@
 // relative import
-import importedObject from './another'
-// unused imports
-import React from 'react'
-import _ from 'lodash'
+import importedObject from './example-dependency'
 
 console.log(importedObject)
 
@@ -23,6 +20,14 @@ class MySquaredList {
 var squaredListInstance = new MySquaredList(0,1,2,3);
 
 console.log(squaredListInstance.squaredList)
+
+// Example JSX code
+let jsxElement = (
+  <div className='container'>
+    <h2>Foo</h2>
+    <span className='example'>Bar</span>
+  </div>
+)
 
 // multiple exports
 // https://babeljs.io/docs/learn-es6/#modules

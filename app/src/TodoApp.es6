@@ -1,24 +1,4 @@
-import React from 'react'
-
-let TodoHeader = React.createClass({
-  render(){
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <fieldset>
-          <label htmlFor="newTodo">New Todo: </label>
-          <input name="newTodo" ref='newTodo' />
-        </fieldset>
-      </form>
-    )
-  },
-  handleSubmit(event){
-    event.preventDefault()
-    let newTodo = this.refs['newTodo'].getDOMNode();
-    this.props.onSubmit(newTodo.value)
-    newTodo.value = '';
-  }
-})
-
+import React from 'react/addons'
 
 let TodoApp = React.createClass({
   getInitialState(){
@@ -35,9 +15,12 @@ let TodoApp = React.createClass({
   render(){
     return (
       <div className="todo-app">
-        <TodoHeader
-          onSubmit={this.addTodo}
-         />
+        <form>
+          <fieldset>
+            <label htmlFor="newTodo">New Todo: </label>
+            <input name="newTodo" ref='newTodo' />
+          </fieldset>
+        </form>
         <ul>
           {this.state.todos.map((todo, idx)=>
             <li key={idx}>{todo}</li>
@@ -45,11 +28,6 @@ let TodoApp = React.createClass({
         </ul>
       </div>
     )
-  },
-  addTodo(todo){
-    let todos = this.state.todos;
-    todos.push(todo)
-    this.setState({ todos })
   }
 })
 

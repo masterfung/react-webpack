@@ -1,6 +1,7 @@
 var gulp = require('gulp')
   , path = require('path')
   , del = require('del')
+  , mainBowerFiles = require('main-bower-files');
 
 var $ = require('gulp-load-plugins')({
   scope: ['devDependencies'],
@@ -9,16 +10,17 @@ var $ = require('gulp-load-plugins')({
 })
 
 const ROOT = path.join(__dirname)
-  , APP = path.join(ROOT)
+  , APP = path.join(ROOT, 'app')
   , DIST = path.join(APP, 'dist')
   , FILES = {
-    entry: path.join(APP, 'src', 'entry.es6'),
-    index: path.join(APP, 'src', 'index.html'),
+    entry: path.join(APP, 'src', 'babel-playing.es6'),
+    index: path.join(APP, 'index.html'),
     serveHTML: path.join(DIST, 'index.html')
   }
 
 gulp.task('clean', function(done){
-  del([ DIST ], done)
+  del.sync([ DIST ])
+  done()
 })
 
 gulp.task('copy:html', function(){
@@ -27,8 +29,11 @@ gulp.task('copy:html', function(){
     .pipe($.connect.reload())
 })
 
-gulp.task('bower', function() {
-  $.bower()
+gulp.task('bower-files', function() {
+  gulp.src(mainBowerFiles())
+    .pipe($.stripCode({
+      pattern: /\/\*\# sourceMapping.+\*\//
+    }))
     .pipe(gulp.dest(DIST + '/vendor'))
 });
 
@@ -51,7 +56,10 @@ gulp.task('scripts:build', function(){
             exclude: /node_modules/,
             loaders: [ 'babel' ]
             // with all experimental options
-            // ,loaders: [ 'babel?experimental&optional=runtime&playground' ]
+            // experimental: spread used widely in JSX
+            // ,loaders: [
+            //  'babel?experimental&optional=runtime&playground'
+            //  ]
           }
         ]
       },
@@ -81,12 +89,11 @@ gulp.task('watch:html', function(){
 });
 
 gulp.task('dev', [
-    'clean',
+    'bower-files',
+    'scripts:build',
     'copy:html',
-    'bower',
     'connect:start',
     'watch:html',
-    'scripts:build'
   ])
 
 gulp.task('default', $.taskListing)
