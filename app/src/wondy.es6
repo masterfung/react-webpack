@@ -18,7 +18,6 @@ let ShowList = React.createClass({
     // });
     return (
       <div>
-      <hr />
         <h3> Your Friends Friends </h3>
         <ListGroup>
           {this.props.names.map((friend, idx) =>
@@ -55,7 +54,7 @@ let FriendsContainer = React.createClass({
   },
   render(){
     return (
-      <div>
+      <Grid>
         <Navbar brand='FriendsNet' toggleNavKey={0}>
         <CollapsableNav eventKey={0}> {/* This is the eventKey referenced */}
           <Nav navbar>
@@ -75,15 +74,14 @@ let FriendsContainer = React.createClass({
           </Nav>
         </CollapsableNav>
       </Navbar>
-    <Grid>
         <h1 className="text-center">Add Your Friends</h1>
         <h3 className='text-center'>Name: {this.state.name}</h3>
         <Row className='show-grid'>
-          <Col md={6}><AddFriend addNew={this.addFriend} /></Col>
-          <Col md={6}><ShowList names={this.state.friends} /></Col>
+          <AddFriend addNew={this.addFriend} />
+          <Col md={12}><ShowList names={this.state.friends} /></Col>
         </Row>
-        </Grid>
-      </div>
+      </Grid>
+
     )
   }
 })
@@ -110,15 +108,10 @@ let AddFriend = React.createClass({
   },
   render(){
     return (
-      <Grid>
-        <Row>
-        <form onSubmit={this.handleAddNew}>
-          <Input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}
-          buttonAfter={<Button bsStyle='primary'>Search</Button>}
-          />
-        </form>
-        </Row>
-      </Grid>
+    <div>
+       <input type="text" className="form-control" value={this.state.newFriend} onChange={this.updateNewFriend}/>
+       <Button className="btn btn-primary" onClick={this.handleAddNew}>Add New Friend</Button>
+     </div>
     )
   }
 })
