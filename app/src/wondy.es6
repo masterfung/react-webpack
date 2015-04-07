@@ -1,7 +1,8 @@
 import React from 'react/addons';
 import RB from 'react-bootstrap';
 
-let {Button, ListGroup, ListGroupItem} = RB
+let {Button, Input, ListGroup, ListGroupItem, Grid, Row, Col, Navbar
+, Nav, CollapsableNav, NavItem, DropdownButton, MenuItem} = RB
 
 let ShowList = React.createClass({
   getDefaultProps(){
@@ -41,6 +42,7 @@ let FriendsContainer = React.createClass({
   //   alert('In Component Will Receive Props');
   // },
   // componentWillUnmount(){},
+
   addFriend(friend) {
     this.setState({
       friends: this.state.friends.concat([friend])
@@ -49,11 +51,33 @@ let FriendsContainer = React.createClass({
   render(){
     return (
       <div>
-        <h3 className="col-md-6">Name: {this.state.name}</h3>
-        <div className="col-md-6">
-          <AddFriend addNew={this.addFriend} />
+        <Navbar brand='Add Your Friends' toggleNavKey={0}>
+        <CollapsableNav eventKey={0}> {/* This is the eventKey referenced */}
+          <Nav navbar>
+            <NavItem eventKey={1} href='#'>About</NavItem>
+            <NavItem eventKey={2} href='#'>Company</NavItem>
+            <DropdownButton eventKey={3} title='Getting Started'>
+              <MenuItem eventKey='1'>Action</MenuItem>
+              <MenuItem eventKey='2'>Another action</MenuItem>
+              <MenuItem eventKey='3'>Something else here</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey='4'>Separated link</MenuItem>
+            </DropdownButton>
+          </Nav>
+          <Nav navbar right>
+            <NavItem eventKey={1} href='#'>Link Login</NavItem>
+            <NavItem eventKey={2} href='#'>Link Sign Up</NavItem>
+          </Nav>
+        </CollapsableNav>
+      </Navbar>
+    <Grid>
+        <h1 className="text-center">Friend Support</h1>
+        <h3 className='text-center'>Name: {this.state.name}</h3>
+        <Row className='show-grid'>
+          <Col md={6}><AddFriend addNew={this.addFriend} /></Col>
           <ShowList names={this.state.friends} />
-        </div>
+        </Row>
+        </Grid>
       </div>
     )
   }
@@ -81,10 +105,11 @@ let AddFriend = React.createClass({
   },
   render(){
     return (
-      <div>
-        <input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}/>
-        <Button className="btn btn-primary" onClick={this.handleAddNew}>Add New Friend</Button>
-      </div>
+      <form onSubmit={this.handleAddNew}>
+        <Input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}
+        buttonAfter={<Button bsStyle='primary'>Search</Button>}
+        />
+      </form>
     )
   }
 })
