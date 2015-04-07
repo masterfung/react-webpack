@@ -13,7 +13,7 @@ const ROOT = path.join(__dirname)
   , APP = path.join(ROOT, 'app')
   , DIST = path.join(ROOT, 'dist')
   , FILES = {
-    entry: path.join(APP, 'src', 'echoNest.es6'),
+    entry: path.join(APP, 'src', 'wondy.es6'),
     index: path.join(APP, 'index.html'),
     serveHTML: path.join(DIST, 'index.html')
   }
