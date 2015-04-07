@@ -11,15 +11,20 @@ let ShowList = React.createClass({
     }
   },
   render(){
-    let listItems = this.props.names.map(function(friend, idx){
-      return <li key={idx}> {friend} </li>;
-    });
+    // let listItems = this.props.names.map(function(friend, idx){
+    //   return (<ListGroup>
+    //     <ListGroupItem key={idx}>{friend}</ListGroupItem>
+    //   </ListGroup>)
+    // });
     return (
       <div>
-        <h3 className="text-center"> Friends </h3>
-        <ul>
-          {listItems}
-        </ul>
+      <hr />
+        <h3> Your Friends Friends </h3>
+        <ListGroup>
+          {this.props.names.map((friend, idx) =>
+            <ListGroupItem key={idx}>{friend}</ListGroupItem>
+          )}
+        </ListGroup>
       </div>
     )
   }
@@ -51,7 +56,7 @@ let FriendsContainer = React.createClass({
   render(){
     return (
       <div>
-        <Navbar brand='Add Your Friends' toggleNavKey={0}>
+        <Navbar brand='FriendsNet' toggleNavKey={0}>
         <CollapsableNav eventKey={0}> {/* This is the eventKey referenced */}
           <Nav navbar>
             <NavItem eventKey={1} href='#'>About</NavItem>
@@ -71,11 +76,11 @@ let FriendsContainer = React.createClass({
         </CollapsableNav>
       </Navbar>
     <Grid>
-        <h1 className="text-center">Friend Support</h1>
+        <h1 className="text-center">Add Your Friends</h1>
         <h3 className='text-center'>Name: {this.state.name}</h3>
         <Row className='show-grid'>
           <Col md={6}><AddFriend addNew={this.addFriend} /></Col>
-          <ShowList names={this.state.friends} />
+          <Col md={6}><ShowList names={this.state.friends} /></Col>
         </Row>
         </Grid>
       </div>
@@ -105,11 +110,15 @@ let AddFriend = React.createClass({
   },
   render(){
     return (
-      <form onSubmit={this.handleAddNew}>
-        <Input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}
-        buttonAfter={<Button bsStyle='primary'>Search</Button>}
-        />
-      </form>
+      <Grid>
+        <Row>
+        <form onSubmit={this.handleAddNew}>
+          <Input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}
+          buttonAfter={<Button bsStyle='primary'>Search</Button>}
+          />
+        </form>
+        </Row>
+      </Grid>
     )
   }
 })
