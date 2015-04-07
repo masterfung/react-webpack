@@ -9,7 +9,7 @@ let ShowList = React.createClass({
     });
     return (
       <div>
-        <h3> Friends </h3>
+        <h3 className="text-center"> Friends </h3>
         <ul>
           {listItems}
         </ul>
@@ -25,11 +25,44 @@ let FriendsContainer = React.createClass({
       "friends": ["Bill Gates", "Yo Yo Ma", "Cher", "Barry Allen"]
     }
   },
+  addFriend(homies) {
+    this.setState({
+      "friends": this.state.friends.concat([homies])
+    })
+  },
   render(){
     return (
       <div>
         <h3 className="col-md-6">Name: {this.state.name}</h3>
+        <AddFriend addNew={this.addFriend} />
+        <ShowList names={this.state.friends} />
+      </div>
+    )
+  }
+})
 
+let AddFriend = React.createClass({
+  getInitialState(){
+    return {
+      "newFriend": ""
+    }
+  },
+  updateNewFriend(event){
+    this.setState({
+      "newFriend": event.target.value
+    });
+  },
+  handleAddNew(){
+    this.props.addNew(this.state.newFriend);
+    this.setState({
+      newFriend: ""
+    })
+  },
+  render(){
+    return (
+      <div>
+        <input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}/>
+        <button onClick={this.handleAddNew}>Add New Friend</button>
       </div>
     )
   }
