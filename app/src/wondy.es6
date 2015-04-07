@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import RB from 'react-bootstrap';
 
-let {Button} = RB
+let {Button, ListGroup, ListGroupItem} = RB
 
 let ShowList = React.createClass({
   getDefaultProps(){
@@ -10,8 +10,8 @@ let ShowList = React.createClass({
     }
   },
   render(){
-    let listItems = this.props.names.map(function(friend){
-      return <li> {friend} </li>;
+    let listItems = this.props.names.map(function(friend, idx){
+      return <li key={idx}> {friend} </li>;
     });
     return (
       <div>
@@ -26,7 +26,6 @@ let ShowList = React.createClass({
 
 let FriendsContainer = React.createClass({
   getInitialState(){
-    alert('WOOT WOOT');
     return {
       name: "Tsung Hung",
       friends: ["Bill Gates", "Yo Yo Ma", "Cher", "Barry Allen"]
