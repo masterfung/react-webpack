@@ -1,10 +1,16 @@
 import React from 'react/addons';
-
 import RB from 'react-bootstrap';
 
+let {Button} = RB
+
 let ShowList = React.createClass({
+  getDefaultProps(){
+    return {
+      names: []
+    }
+  },
   render(){
-    let listItems = this.props.name.map((friend) => {
+    let listItems = this.props.names.map(function(friend){
       return <li> {friend} </li>;
     });
     return (
@@ -20,22 +26,35 @@ let ShowList = React.createClass({
 
 let FriendsContainer = React.createClass({
   getInitialState(){
+    alert('WOOT WOOT');
     return {
-      "name": "Tsung Hung",
-      "friends": ["Bill Gates", "Yo Yo Ma", "Cher", "Barry Allen"]
+      name: "Tsung Hung",
+      friends: ["Bill Gates", "Yo Yo Ma", "Cher", "Barry Allen"]
     }
   },
-  addFriend(homies) {
+  // componentWillMount(){
+  //   alert('In Component Will Mount');
+  // },
+  // componentDidMount(){
+  //   alert('In Component Did Mount');
+  // },
+  // componentWillReceiveProps(nextProps){
+  //   alert('In Component Will Receive Props');
+  // },
+  // componentWillUnmount(){},
+  addFriend(friend) {
     this.setState({
-      "friends": this.state.friends.concat([homies])
-    })
+      friends: this.state.friends.concat([friend])
+    });
   },
   render(){
     return (
       <div>
         <h3 className="col-md-6">Name: {this.state.name}</h3>
-        <AddFriend addNew={this.addFriend} />
-        <ShowList names={this.state.friends} />
+        <div className="col-md-6">
+          <AddFriend addNew={this.addFriend} />
+          <ShowList names={this.state.friends} />
+        </div>
       </div>
     )
   }
@@ -44,12 +63,15 @@ let FriendsContainer = React.createClass({
 let AddFriend = React.createClass({
   getInitialState(){
     return {
-      "newFriend": ""
+      newFriend: ""
     }
   },
-  updateNewFriend(event){
+  propTypes(){
+    addNew : React.propTypes.func.isRequired
+  },
+  updateNewFriend(e){
     this.setState({
-      "newFriend": event.target.value
+      newFriend: e.target.value
     });
   },
   handleAddNew(){
@@ -62,7 +84,7 @@ let AddFriend = React.createClass({
     return (
       <div>
         <input type="text" value={this.state.newFriend} onChange={this.updateNewFriend}/>
-        <button onClick={this.handleAddNew}>Add New Friend</button>
+        <Button className="btn btn-primary" onClick={this.handleAddNew}>Add New Friend</Button>
       </div>
     )
   }
@@ -71,12 +93,12 @@ let AddFriend = React.createClass({
 let HelloUser = React.createClass({
   getInitialState(){
     return {
-      "username": 'masterfung'
+      username: 'masterfung'
     }
   },
   handleChange(e) {
     this.setState({
-      "username": e.target.value
+      username: e.target.value
     })
   },
   render(){
@@ -93,6 +115,6 @@ let HelloUser = React.createClass({
 })
 
 React.render(
-  <HelloUser />,
+  <FriendsContainer />,
   document.querySelector('.container')
 )
