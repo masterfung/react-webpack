@@ -1,4 +1,8 @@
 var gulp = require('gulp')
+  , sass = require('gulp-sass')
+  , autoprefixer = require('gulp-autoprefixer')
+  , minifycss = require('gulp-minify-css')
+  , rename = require('gulp-rename')
   , path = require('path')
   , del = require('del')
   , mainBowerFiles = require('main-bower-files');
@@ -15,8 +19,10 @@ const ROOT = path.join(__dirname)
   , FILES = {
     entry: path.join(APP, 'src', 'wondy.es6'),
     index: path.join(APP, 'index.html'),
+    styles: path.join(APP, 'styles', '*.scss'),
     serveHTML: path.join(DIST, 'index.html')
   }
+
 
 gulp.task('clean', function(done){
   del.sync([ DIST ])
@@ -27,6 +33,12 @@ gulp.task('copy:html', function(){
   gulp.src(FILES.index)
     .pipe(gulp.dest(DIST))
     .pipe($.connect.reload())
+})
+
+gulp.task('build:scss', function(){
+  gulp.src(FILES.styles)
+    .pipe(sass())
+    .pipe(gulp.dest(DIST + "/styles"))
 })
 
 gulp.task('bower:files', function() {
@@ -88,12 +100,18 @@ gulp.task('watch:html', function(){
   gulp.watch(FILES.index, ['copy:html'])
 });
 
+gulp.task('watch:styles', function(){
+  gulp.watch(FILES.style, ['build:scss'])
+});
+
 gulp.task('dev', [
     'copy:html',
+    'build:scss',
     'bower:files',
     'scripts:build',
     'connect:start',
-    'watch:html'
+    'watch:html',
+    'watch:styles'
   ])
 
 gulp.task('default', $.taskListing)
