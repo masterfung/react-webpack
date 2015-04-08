@@ -108,10 +108,10 @@ let AddFriend = React.createClass({
   },
   render(){
     return (
-    <div>
+    <form>
        <input type="text" className="form-control" value={this.state.newFriend} onChange={this.updateNewFriend}/>
-       <Button className="btn btn-primary" onClick={this.handleAddNew}>Add New Friend</Button>
-     </div>
+       <button className="btn btn-primary center-align" onClick={this.handleAddNew}>Add New Friend</button>
+     </form>
     )
   }
 })
