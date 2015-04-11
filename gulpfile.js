@@ -17,7 +17,7 @@ const ROOT = path.join(__dirname)
   , APP = path.join(ROOT, 'app')
   , DIST = path.join(ROOT, 'dist')
   , FILES = {
-    entry: path.join(APP, 'src', 'wondy.es6'),
+    entry: path.join(APP, 'src', 'todo_v2.es6'),
     index: path.join(APP, 'index.html'),
     styles: path.join(APP, 'styles', '*.scss'),
     serveHTML: path.join(DIST, 'index.html')
@@ -55,7 +55,7 @@ gulp.task('scripts:build', function(){
       output: {
         filename: '[name].js'
       },
-      devtool: 'source-map',
+      devtool: 'eval',
       target: 'web',
       watch: true,
       resolve: {
